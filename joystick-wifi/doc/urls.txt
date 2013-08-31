@@ -1,0 +1,6 @@
+http://store.curiousinventor.com/guides/PS2/
+http://gamehacking.org/faqs/PSX.pdf
+http://processors.wiki.ti.com/index.php/Interfacing_an_Analog_Joystick_to_the_MSP430FR5739
+http://denki.world3.net/superplay.html
+http://forum.arcadecontrols.com/index.php?topic=83377.0
+http://en.wikipedia.org/wiki/DualShock#DualShock_2

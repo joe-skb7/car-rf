@@ -1,0 +1,5 @@
+Joystick in Linux via USB
+-------------------------
+
+1. sudo aptitude install joystick
+2. jstest /dev/input/js0

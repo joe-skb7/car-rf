@@ -1,0 +1,15 @@
+1.  Clock source: SMCLK
+2.  Mode: master
+3.  SPI mode: 3-pin SPI
+4.  Pins to be muxed:
+    - P1.5: UCB0CLK
+    - P1.6: UCB0SOMI
+    - P1.7: UCB0SIMO
+5.  Bits in packet: 8 bit
+6.  Bits order: LSB first
+7.  Bitrate: 250 kbps (joystick probably supports up t 500 kbps)
+8.  Clock Phase: CPHA = 0, i.e. data is changed on the first UCLK edge and captured on the following edge
+9.  Clock Polarity: CPOL = 1, i.e. inactive (idle) state is high
+10. Interrupt handlers (ISRs):
+    - SPI receive interrupt: enable
+    - SPI transmit interrupt: disable (may be needed in future, depends on code design)

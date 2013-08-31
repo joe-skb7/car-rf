@@ -1,0 +1,6 @@
+http://www.ti.com/general/docs/litabsmultiplefilelist.tsp?literatureNumber=swra116a
+http://ph-elec.com/archives/porting-ti-simpliciti-to-gnu-c/
+http://ph-elec.com/archives/cc2500-boosterpack-pcb/
+http://store.43oh.com/index.php?route=product/product&path=64&product_id=74
+http://store.43oh.com/index.php?route=product/product&path=63_62&product_id=61
+http://forum.43oh.com/topic/1738-cc2500-breakoutboosterpack/

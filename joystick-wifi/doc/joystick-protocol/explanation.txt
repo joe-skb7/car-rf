@@ -1,0 +1,17 @@
+1. this document contains sniffed startup sequence between PS2 and joystick
+2. "xx:yy" format:
+   - xx: number of packet
+   - yy: data
+3. command, data:
+   - PS2 (or MSP430) sends command, joystick responses 0xff (header)
+   - then PS2 sends 0x0, joystick responses (data)
+4. packet usually is 5 byte length;
+   - header is always 3 bytes long
+   - response is 2..18 bytes
+   e.g.:
+   command   data
+   01        FF      // start byte, always 0x01
+   42        41      // packet number (0x42)
+   00        5A      // response start byte: always is 0x5a
+   00        FE      // response data
+   00        FF      // response data

@@ -1,0 +1,30 @@
+Playstation joystick connector
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Our joystick is chinese clone of DualShock2 (http://en.wikipedia.org/wiki/DualShock#DualShock_2)
+
+
+Pin no    Color      Meaning
+========================================
+  1       brown      data
+  2       orange     command
+  3       grey       vibrators power (+9v)
+  4       black      GND
+  5       red        Vcc (+3.3V ... +5v)
+  6       yellow     attention
+  7       blue       clock
+  8       white      --- (not used)
+  9       green      acknowledge
+
+
+Signals explanation
+~~~~~~~~~~~~~~~~~~~
+
+- data:        SPI SOMI (joystick -> MSP430)
+- command:     SPI SIMO (MSP430 -> joystick)
+- clock:       SPI clock
+- acknowledge: "Chip Select"
+- attention:   joystick pulls it down after each data transmission; MSP430 can realize
+               that joystick is missing when not is retrieving this data anymore (hot-unplug?)
+- Vcc:         can be any voltage from 3.3V...5V;
+               MSP430 launchpad uses 3.6V, and joystick works fine with it
