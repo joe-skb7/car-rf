@@ -1,3 +1,5 @@
+#include <ds2/ds2.h>
+#include <spi/spi.h>
 #include <msp430.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -26,16 +28,6 @@ static int mcu_init(void)
 	return 0;
 }
 
-static void spi_mux_pins(void)
-{
-	/* P1.5 - UCB0CLK
-	 * P1.6 - UCB0SOMI
-	 * P1.7 - UCB0SIMO
-	 */
-	P1SEL  |= BIT5 | BIT6 | BIT7;
-	P1SEL2 |= BIT5 | BIT6 | BIT7;
-}
-
 static void gpio_init(void)
 {
 	/* P1.0 - OUT (Joystick's Chip Select, "Attention")
@@ -43,40 +35,6 @@ static void gpio_init(void)
 	 */
 	P1DIR |= BIT0;
 	P1OUT |= BIT0; /* up on idle */
-}
-
-static void spi_init(void)
-{
-	/* Reset SPI */
-	UCB0CTL1 = UCSWRST;
-
-	/* UCCKPH   = 0: Data is changed on the first UCLK edge and captured
-	 *               on the following edge
-	 * UCMSB    = 0: Send lesat significant bit first
-	 * UC7BIT   = 0: 8-bit character length
-	 * UCMODE_0 = 0: 3-pin SPI
-	 * UCCKPL   = 1: Inactive clock state is high
-	 * UCMST    = 1: Master mode
-	 * UCSYNC   = 1: Synchronous mode
-	 */
-	UCB0CTL0 = UCCKPL | UCMST | UCSYNC | UCMODE_0;
-
-	/* Set clock source to SMCLK */
-	UCB0CTL1 = UCSSEL_2 | UCSWRST;
-
-	/* Set bitrate to 250kbps */
-	UCB0BR0 = 4;
-
-	spi_mux_pins();
-
-	/* Enable SPI */
-	UCB0CTL1 &= ~UCSWRST;
-
-	/* Enable interrupts */
-	/* TODO: uncomment further */
-#if 0
-	IE2 |= UCB0RXIE | UCB0TXIE;
-#endif
 }
 
 static int init(void)
@@ -101,78 +59,6 @@ static int init(void)
 
 	return 0;
 }
-
-static void ds2_send_receive_byte_sync(unsigned char send_data,
-		unsigned char *receive_data)
-{
-	char buf[32] = {0};
-	unsigned char received;
-
-	while (!(IFG2 & UCB0TXIFG)); /* TODO: add timeout and return -1 */
-	UCB0TXBUF = send_data;
-
-	while (!(IFG2 & UCB0RXIFG));
-	received = UCB0RXBUF;
-	if (receive_data)
-		*receive_data = received;
-
-	snprintf(buf, 32, "%#x : %#x\r\n", (unsigned int)send_data,
-			(unsigned int)received);
-	uart_pc_write_str_sync(buf);
-}
-
-static void ds2_send_receive_packet_sync(unsigned char *send_packet,
-		unsigned char *receive_packet, size_t size)
-{
-	size_t i;
-
-	if (!send_packet)
-		return;
-
-	/* Enable Joystick Chip Select: set "Attention" line to 0 */
-	P1OUT &= ~BIT0;
-
-	for (i = 0; i < size; ++i) {
-		ds2_send_receive_byte_sync(send_packet[i],
-				receive_packet ? receive_packet + i : NULL);
-	}
-
-	/* Release CS */
-	P1OUT |= BIT0;
-}
-
-static void ds2_poll_buttons_sync(unsigned int *buttons)
-{
-	unsigned char request[] = {0x01, 0x42, 0x00, 0x00, 0x00, 0x00, 0x00,
-		0x00, 0x00};
-	unsigned char response[9];
-
-	ds2_send_receive_packet_sync(request, response, 9);
-
-	if (buttons) {
-		((uint8_t*)buttons)[0] = response[3];
-		((uint8_t*)buttons)[1] = response[4];
-	}
-}
-
-/* TODO */
-#if 0
-int ds2_handshake(void)
-{
-	uint8_t send_data[] = {0x01, 0x01, 0x01, 0x01, 0x01, 0x01};
-	uint8_t receive_data[6];
-	size_t i;
-
-	ds2_send_receive_packet_sync(send_data, receive_data, 6);
-
-	for (i = 0; i < 6; ++i) {
-		if (0xff != receive_data[i])
-			return 1;
-	}
-
-	return 0;
-}
-#endif
 
 static void loop(void)
 {

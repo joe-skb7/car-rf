@@ -1,4 +1,4 @@
-PROJ = uart2
+PROJ = ds2
 OUT = $(PROJ).elf
 CROSS_COMPILE = msp430-
 CC = $(CROSS_COMPILE)gcc
@@ -11,6 +11,8 @@ UART_DEV = /dev/ttyACM0
 OBJS =				\
 	src/uart/uart.o		\
 	src/uart/uart_pc.o	\
+	src/ds2/ds2.o		\
+	src/spi/spi.o		\
 	src/main.o
 
 INCLUDES = -Iinclude/
