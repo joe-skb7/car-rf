@@ -1,4 +1,5 @@
 #include <spi/spi.h>
+#include <ds2/ds2.h>
 
 void ds2_poll_buttons_sync(unsigned int *buttons)
 {
