@@ -1,3 +1,4 @@
 *.o
-ds2.elf
 *.swp
+ds2.elf
+.cscope
