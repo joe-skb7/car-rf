@@ -1,2 +1,3 @@
 *.o
 ds2.elf
+*.swp
