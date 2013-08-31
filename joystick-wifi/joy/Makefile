@@ -72,7 +72,7 @@ serial:
 	@echo "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 	@echo
 	# Clear chakras
-	sudo mspdebug $(BOARD) exit
+	sudo mspdebug $(PROGRAMMER) exit
 	# Set up speed
 	stty $(UART_BAUDRATE) -F $(UART_DEV)
 	# Our firmware waits to eat one char
