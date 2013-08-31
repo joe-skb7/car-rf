@@ -13,6 +13,7 @@ OBJS =				\
 	src/uart/uart_pc.o	\
 	src/ds2/ds2.o		\
 	src/spi/spi.o		\
+	src/interrupts.o	\
 	src/main.o
 
 INCLUDES = -Iinclude/

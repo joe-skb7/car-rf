@@ -4,10 +4,13 @@
  */
 
 #include <msp430.h>
+#include <interrupts.h>
 #include "uart/uart_cfg.h"
 #include "uart/uart.h"
 
 static uart_rx_callback_t rx_cb;
+
+void uscia0rx_handler(uint8_t c);
 
 void uart_init(void)
 {
@@ -19,6 +22,8 @@ void uart_init(void)
 	UCA0MCTL = UCBRS0;		/* modulation UCBRSx = 1 */
 	UART_MUX_PINS;
 	UCA0CTL1 &= ~UCSWRST;		/* initialize USCI state machine */
+
+	usci0a_set_rx_cb(&uscia0rx_handler);
 
 	IE2 |= UCA0RXIE;		/* enable USCI_A0 RX interrupt */
 }
@@ -57,11 +62,8 @@ err:
 	return ret;
 }
 
-__attribute__((__interrupt__(USCIAB0RX_VECTOR)))
-void usci0rx_isr(void)
+void uscia0rx_handler(uint8_t c)
 {
 	if (rx_cb)
-		rx_cb((char)UCA0RXBUF);
-
-	IFG2 &= ~UCA0RXIFG;
+		rx_cb((char)c);
 }
