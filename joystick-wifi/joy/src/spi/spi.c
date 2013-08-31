@@ -1,7 +1,9 @@
 #include <spi/spi.h>
+#include <uart/uart_pc.h>
 #include <msp430.h>
+#include <stdio.h>
 
-void spi_mux_pins(void)
+static void spi_mux_pins(void)
 {
 	/* P1.5 - UCB0CLK
 	 * P1.6 - UCB0SOMI
@@ -43,4 +45,43 @@ void spi_init(void)
 #if 0
 	IE2 |= UCB0RXIE | UCB0TXIE;
 #endif
+}
+
+void spi_send_receive_byte_sync(unsigned char send_data,
+		unsigned char *receive_data)
+{
+	char buf[32] = {0};
+	unsigned char received;
+
+	while (!(IFG2 & UCB0TXIFG)); /* TODO: add timeout and return -1 */
+	UCB0TXBUF = send_data;
+
+	while (!(IFG2 & UCB0RXIFG));
+	received = UCB0RXBUF;
+	if (receive_data)
+		*receive_data = received;
+
+	snprintf(buf, 32, "%#x : %#x\r\n", (unsigned int)send_data,
+			(unsigned int)received);
+	uart_pc_write_str_sync(buf);
+}
+
+void spi_send_receive_packet_sync(unsigned char *send_packet,
+		unsigned char *receive_packet, size_t size)
+{
+	size_t i;
+
+	if (!send_packet)
+		return;
+
+	/* Enable Joystick Chip Select: set "Attention" line to 0 */
+	P1OUT &= ~BIT0;
+
+	for (i = 0; i < size; ++i) {
+		spi_send_receive_byte_sync(send_packet[i],
+				receive_packet ? receive_packet + i : NULL);
+	}
+
+	/* Release CS */
+	P1OUT |= BIT0;
 }
