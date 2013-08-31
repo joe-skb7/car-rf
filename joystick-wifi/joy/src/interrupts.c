@@ -32,13 +32,13 @@ void usci0rx_isr(void)
 	if(IFG2 & UCA0RXIFG)
 	{
 		if (usci0a_rx_cb)
-			usci0a_rx_cb((char)UCA0RXBUF);
+			usci0a_rx_cb(UCA0RXBUF);
 		IFG2 &= ~UCA0RXIFG;
 	}
 	else if(IFG2 & UCB0RXIFG)
 	{
 		if (usci0b_rx_cb)
-			usci0b_rx_cb((char)UCB0RXBUF);
+			usci0b_rx_cb(UCB0RXBUF);
 		IFG2 &= ~UCB0RXIFG;
 	}
 }
