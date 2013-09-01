@@ -13,10 +13,10 @@
 #define udelay(us)						\
 	do {							\
 		__delay_cycles(us * (XTAL / 1000000UL));	\
-	} while (0);
+	} while (0)
 #define mdelay(ms)						\
 	do {							\
 		__delay_cycles(ms * (XTAL / 1000UL));		\
-	} while (0);
+	} while (0)
 
 #endif /* DELAY_H */
