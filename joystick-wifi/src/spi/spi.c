@@ -1,7 +1,7 @@
+#include <stdio.h>
+#include <msp430.h>
 #include <spi/spi.h>
 #include <uart/uart_pc.h> /* TODO: for debug (temporary); remove further */
-#include <msp430.h>
-#include <stdio.h>
 
 static void spi_mux_pins(void)
 {
