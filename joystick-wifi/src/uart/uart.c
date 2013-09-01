@@ -38,7 +38,7 @@ void uart_set_rx_callback(uart_rx_callback_t cb)
 
 /* TODO: replace _sync with interrupt driven send of data with callback
  * "transieved"
- * */
+ */
 int uart_send_char_sync(char c)
 {
 	while (!(IFG2 & UCA0TXIFG)); /* TODO: add timeout and return -1 */
