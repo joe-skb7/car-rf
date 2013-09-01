@@ -15,7 +15,7 @@ void ds2_poll_buttons_sync(unsigned int *buttons)
 	}
 }
 
-/* TODO */
+/* TODO: do smth w/ handshake routine */
 #if 0
 int ds2_handshake(void)
 {

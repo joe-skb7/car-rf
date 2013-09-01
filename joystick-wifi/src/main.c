@@ -77,6 +77,7 @@ int main(void)
 	if (init())
 		return err_loop();
 
+/* TODO: do smth w/ handshake routine */
 #if 0
 	if (ds2_handshake()) {
 		uart_pc_write_str_sync("handshake failed\r\n");
