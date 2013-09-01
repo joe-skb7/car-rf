@@ -1,5 +1,5 @@
 #include <spi/spi.h>
-#include <uart/uart_pc.h>
+#include <uart/uart_pc.h> /* TODO: for debug (temporary); remove further */
 #include <msp430.h>
 #include <stdio.h>
 
@@ -61,6 +61,7 @@ void spi_send_receive_byte_sync(unsigned char send_data,
 	if (receive_data)
 		*receive_data = received;
 
+	/* TODO: for debug (temporary); remove further */
 	snprintf(buf, 32, "%#x : %#x\r\n", (unsigned int)send_data,
 			(unsigned int)received);
 	uart_pc_write_str_sync(buf);
