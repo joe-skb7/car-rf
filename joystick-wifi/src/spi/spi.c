@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <stdio.h> /* TODO: for debug (temporary); remove further */
 #include <msp430.h>
 #include <spi/spi.h>
 #include <uart/uart_pc.h> /* TODO: for debug (temporary); remove further */
