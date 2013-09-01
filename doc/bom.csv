@@ -1,0 +1,9 @@
+Part,Count,"Price, $",URL,Notes,Status
+MSP430 LaunchPad (MSP-EXP430G2),2, -,http://www.ti.com/tool/msp-exp430g2,,ok
+MSP430 MOTOR CONTROL BOARD,1,25,http://www.launchpadbling.com/cgi-bin/viewstore.cgi?prod_type=KITS,2 motors on 1 line,ok
+SainSmart 4WD Drive Aluminum Mobile Car (Silver)Robot Platform,1,48,http://www.ebay.com/itm/SainSmart-4WD-Drive-Aluminum-Mobile-Car-Silver-Robot-Platform-for-Arduino-Motor-/280934561862?pt=LH_DefaultDomain_0&hash=item4169013846,,
+CC2500 2.4Ghz RF Transreceiver Module,2,5,http://www.canton-electronics.com/1836v-cc2500-ic-wireless-rf-transceiver-24g-2400mhz-module-ism-spi-demo-code-p-284.html,Canton TB015,ok
+// CC2500 BoosterPack,2,5,http://store.43oh.com/index.php?route=product/product&path=64&product_id=74,,not needed
+"accumulators: NiMH, 9V, 2600mAh",6, -,http://www.authorstream.com/Presentation/pradelou-637078-robie-arduino-platforme-4wd/,to buy in Kiev,
+Charger for NiMH accumulators,1, -, -,to buy in Kiev,
+Joystick: DualShock2 Chinese,1, -, -,,ok
