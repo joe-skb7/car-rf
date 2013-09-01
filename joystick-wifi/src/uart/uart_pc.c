@@ -6,7 +6,7 @@
 #define PC_QUIRK_COUNT		1	/* count of symbols to eat (from PC) */
 #define PC_QUIRK_DELAY		2000	/* msec */
 
-/* BUG (on PC): do not send data to PC before getting some data from it */
+/* NOTE: bug on PC: do not send data to PC before getting some data from it */
 static volatile int pc_ready;
 static uart_pc_rx_callback_t pc_rx_cb;
 
