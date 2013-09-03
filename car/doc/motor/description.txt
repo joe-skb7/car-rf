@@ -1,0 +1,13 @@
+Type: Biaxial DC Gear Motor
+Model: DG01D
+Manufactured by: Dagu Electronics
+
+Motor operating voltage: 3-6V
+Suggested Voltage: 4.5V
+Current: 190mA (250mA MAX)
+Unloaded speed: 90 +/- 10 RPM
+Allowable max. Torque: 800gf.cm min 
+Reduction ratio: 1:48
+
+Wheel Diameter: About 65mm
+Thickness: About 28mm
