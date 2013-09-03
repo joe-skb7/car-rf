@@ -1,3 +1,4 @@
-3d-scanner (build map) using laser, camera and beaglebone:
-http://www.makerscanner.com/
-(see MakerBot Digitizer, two-laser scan)
+- mechanical hand
+- 3d-scanner (build map) using laser, camera and beaglebone:
+  http://www.makerscanner.com/
+  (see MakerBot Digitizer, two-laser scan)
