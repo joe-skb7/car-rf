@@ -1,10 +1,16 @@
-"Part","Count","Price, $","URL","Notes","Status"
-"MSP430 LaunchPad (MSP-EXP430G2)",2," -","http://www.ti.com/tool/msp-exp430g2",,"ok"
-"// MSP430 MOTOR CONTROL BOARD",1,25,"http://www.launchpadbling.com/cgi-bin/viewstore.cgi?prod_type=KITS",,
-"L298N Stepper Motor Drive Controller Board Dual H Bridge Module",5,18,"http://www.ebay.com/itm/5pcs-L298N-Stepper-Motor-Drive-Controller-Board-Dual-H-Bridge-Module-for-Arduino/370795547137?_trksid=p5713.m2061&_trkparms=aid%3D333005%26algo%3DRIC.FIT%26ao%3D1%26asc%3D25%26meid%3D517706951877703030%26pid%3D100041%26prg%3D1010%26rk%3D1%26rkt%3D9%26sd%3D280934561862%26","2 motors on 1 line","ok"
-"SainSmart 4WD Drive Aluminum Mobile Car (Silver)Robot Platform",1,48,"http://www.ebay.com/itm/SainSmart-4WD-Drive-Aluminum-Mobile-Car-Silver-Robot-Platform-for-Arduino-Motor-/280934561862?pt=LH_DefaultDomain_0&hash=item4169013846",,
+"Part","Count","Price per unit, $","URL","Notes","Status"
+"MSP430 LaunchPad (MSP-EXP430G2)",2,10,"http://www.ti.com/tool/msp-exp430g2",,"ok"
+"SainSmart 4WD Drive Aluminum Mobile Car (Silver)Robot Platform",1,48,"http://www.ebay.com/itm/SainSmart-4WD-Drive-Aluminum-Mobile-Car-Silver-Robot-Platform-for-Arduino-Motor-/280934561862?pt=LH_DefaultDomain_0&hash=item4169013846",,"ok"
+"L298N Stepper Motor Drive Controller Board Dual H Bridge Module",5,4,"http://www.ebay.com/itm/5pcs-L298N-Stepper-Motor-Drive-Controller-Board-Dual-H-Bridge-Module-for-Arduino/370795547137?_trksid=p5713.m2061&_trkparms=aid%3D333005%26algo%3DRIC.FIT%26ao%3D1%26asc%3D25%26meid%3D517706951877703030%26pid%3D100041%26prg%3D1010%26rk%3D1%26rkt%3D9%26sd%3D280934561862%26","2 motors on 1 line","ok"
 "CC2500 2.4Ghz RF Transreceiver Module",2,5,"http://www.canton-electronics.com/1836v-cc2500-ic-wireless-rf-transceiver-24g-2400mhz-module-ism-spi-demo-code-p-284.html","Canton TB015","ok"
+"Joystick: DualShock2 Chinese",1,15,,,"ok"
+"NRF24L01 (2.4 GHz Transceiver, cheap)",10,1.2,"http://www.ebay.com/itm/10Pcs-NRF24L01-2-4GHz-Antenna-Wireless-Transceiver-For-Microcontroller-EP98-New-/111146954656?pt=LH_DefaultDomain_0&hash=item19e0dfefa0",,"on the way"
+"RC Model SG5010 High Speed & Torque Hobby Coreless Servo ",4,4.5,"http://www.ebay.com/itm/4-x-RC-Model-SG5010-High-Speed-Torque-Hobby-Coreless-Servo-/271127440737?pt=UK_ToysGames_RadioControlled_JN&hash=item3f20746d61",,"on the way"
+"accumulators: NiMH, 9V, 2600mAh",6,"???","http://www.authorstream.com/Presentation/pradelou-637078-robie-arduino-platforme-4wd/",,"to buy in Kiev"
+"Charger for NiMH accumulators",1,"???",,,"to buy in Kiev"
+,,,,,
+,,,,,
+,,,,,
+,,,,,
+"// MSP430 MOTOR CONTROL BOARD",1,25,"http://www.launchpadbling.com/cgi-bin/viewstore.cgi?prod_type=KITS",,"not needed"
 "// CC2500 BoosterPack",2,5,"http://store.43oh.com/index.php?route=product/product&path=64&product_id=74",,"not needed"
-"accumulators: NiMH, 9V, 2600mAh",6," -","http://www.authorstream.com/Presentation/pradelou-637078-robie-arduino-platforme-4wd/","to buy in Kiev",
-"Charger for NiMH accumulators",1," -"," -","to buy in Kiev",
-"Joystick: DualShock2 Chinese",1," -"," -",,"ok"
