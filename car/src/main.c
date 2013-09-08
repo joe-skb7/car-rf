@@ -77,25 +77,29 @@ static int init(void)
 
 static void motor_action(int cmd_flags)
 {
+	register unsigned char p2 = P2OUT;
+
 	if ((cmd_flags & M1_STOP) == M1_STOP) {
-		P2OUT &= ~(IN1_BIT | IN2_BIT);
+		p2 &= ~(IN1_BIT | IN2_BIT);
 	} else if ((cmd_flags & M1_COROTATION) == M1_COROTATION) {
-		P2OUT |= IN1_BIT;
-		P2OUT &= ~IN2_BIT;
+		p2 |= IN1_BIT;
+		p2 &= ~IN2_BIT;
 	} else if ((cmd_flags & M1_REVERSAL) == M1_REVERSAL) {
-		P2OUT &= ~IN1_BIT;
-		P2OUT |= IN2_BIT;
+		p2 &= ~IN1_BIT;
+		p2 |= IN2_BIT;
 	}
 
 	if ((cmd_flags & M2_STOP) == M2_STOP) {
-		P2OUT &= ~(IN3_BIT | IN4_BIT);
+		p2 &= ~(IN3_BIT | IN4_BIT);
 	} else if ((cmd_flags & M2_COROTATION) == M2_COROTATION) {
-		P2OUT |= IN3_BIT;
-		P2OUT &= ~IN4_BIT;
+		p2 |= IN3_BIT;
+		p2 &= ~IN4_BIT;
 	} else if ((cmd_flags & M2_REVERSAL) == M2_REVERSAL) {
-		P2OUT &= ~IN3_BIT;
-		P2OUT |= IN4_BIT;
+		p2 &= ~IN3_BIT;
+		p2 |= IN4_BIT;
 	}
+
+	P2OUT = p2;
 }
 
 static void loop(void)
