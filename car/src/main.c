@@ -18,7 +18,7 @@
 
 #define MOTOR_DELAY		1000000UL /* in loops (500000 ~= 1sec) */
 
-static int allow_rotation;
+static int ignition_on;
 
 /* Forever loop for exceptional states */
 static int err_loop(void)
@@ -104,9 +104,9 @@ static void motor_action(int cmd_flags)
 
 static void loop(void)
 {
-	if (!allow_rotation) {
+	if (!ignition_on) {
 		if (!(P1IN & BTN_BIT)) { /* button pressed */
-			allow_rotation = 1;
+			ignition_on = 1;
 			P1OUT |= LED1_BIT | LED2_BIT;
 		} else {
 			return;
