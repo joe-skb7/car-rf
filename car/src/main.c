@@ -112,6 +112,7 @@ static void loop(void)
 			return;
 		}
 	} else {
+		/* Motor M1 */
 		P1OUT &= ~LED2_BIT;
 		P1OUT |= LED1_BIT;
 		motor_action(M1_COROTATION | M2_STOP);
@@ -123,6 +124,7 @@ static void loop(void)
 		motor_action(M1_STOP | M2_STOP);
 		__delay_cycles(MOTOR_DELAY);
 
+		/* Motor M2 */
 		P1OUT &= ~LED1_BIT;
 		P1OUT |= LED2_BIT;
 		motor_action(M1_STOP | M2_COROTATION);
