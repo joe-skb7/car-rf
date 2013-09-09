@@ -8,8 +8,10 @@ XTAL = 1000000
 UART_BAUDRATE = 9600
 UART_DEV = /dev/ttyACM0
 
-OBJS =				\
-	src/main.o
+OBJS =					\
+	src/main.o			\
+	src/motion/motor_driver.o	\
+	src/motion/vehicle.o
 
 INCLUDES = -Iinclude/
 DEFINES = -D'XTAL=$(XTAL)UL'
