@@ -40,6 +40,9 @@ static void gpio_init(void)
 
 	P1DIR |= LED1_BIT | LED2_BIT;
 	P1OUT &= ~(LED1_BIT | LED2_BIT);
+
+	/* It's recommended in datasheet for this package to pulldown port 3 */
+	P3REN = 0xff;
 }
 
 static int init(void)
