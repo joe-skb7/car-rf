@@ -1,0 +1,2 @@
+http://arduino-info.wikispaces.com/Nrf24L01-2.4GHz-HowTo
+http://www.nordicsemi.com/eng/Products/2.4GHz-RF/nRF24L01
