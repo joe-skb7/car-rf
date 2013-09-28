@@ -1,3 +1,6 @@
+- use protothreads:
+  - http://dunkels.com/adam/pt/
+  - http://en.wikipedia.org/wiki/Protothreads
 - mechanical hand
 - 3d-scanner (build map) using laser, camera and beaglebone:
   http://www.makerscanner.com/
