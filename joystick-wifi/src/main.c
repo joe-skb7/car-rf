@@ -35,6 +35,9 @@ static void gpio_init(void)
 	 */
 	P1DIR |= BIT0;
 	P1OUT |= BIT0; /* up on idle */
+
+	/* It's recommended in datasheet for this package to pulldown port 3 */
+	P3REN = 0xff;
 }
 
 static int init(void)
