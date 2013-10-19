@@ -5,3 +5,6 @@
 - 3d-scanner (build map) using laser, camera and beaglebone:
   http://www.makerscanner.com/
   (see MakerBot Digitizer, two-laser scan)
+- motor encoders (for monitoring or auto-controlling the speed)
+- compass (figure out which rotation angle was accomplished)
+- accelerometer/GPS (figure out the speed of car)
