@@ -1,0 +1,34 @@
+Joystick original socket was cut and replaced by DB9-F connector.
+
+Here is pinout:
++--------+---------------+---------------------+
+| Color  | DB9-F pin no  |  Description        | 
++--------+---------------+---------------------+
+| brown  |       5       |  SOMI               |
+| orange |       4       |  SIMO               |
+| grey   |       -       |  - (do not solder)  |
+| black  |       2       |  GND                |
+| red    |       1       |  Vcc                |
+| yellow |       9       |  P1.0 (Chip Select) |
+| blue   |       8       |  SCLK               |
+| white  |       -       |  - (do not solder)  |
+| green  |       6       |  P1.4 (ack)         |
++--------+---------------+---------------------+
+
+
+At "Wireless Joystick BoosterPack" PCB we have soldered DB9-M connector.
+Here is the corresponding table for PCB connector pins and joystick connector pins:
++--------------+------------------+
+|  PCB (DB9-M) | Joystick (DB9-F) |
++--------------+------------------+
+|      1       |        5         |
+|      2       |        4         |
+|      3       |        3         |
+|      4       |        2         |
+|      5       |        1         |
++--------------+------------------+
+|      6       |        9         |
+|      7       |        8         |
+|      8       |        7         |
+|      9       |        6         |
++--------------+------------------+
