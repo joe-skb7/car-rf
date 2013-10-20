@@ -1,10 +1,14 @@
 #include <ds2/ds2.h>
+#include <wl/wl.h>
 #include <spi/spi.h>
 #include <msp430.h>
 #include <stdint.h>
 #include <stdio.h>
-#include "uart/uart_pc.h"
-#include "delay.h"
+#include <uart/uart_pc.h>
+#include <delay.h>
+#include <string.h>
+
+#define DEBUG
 
 static void process_uart_rx(char c);
 
@@ -30,12 +34,6 @@ static int mcu_init(void)
 
 static void gpio_init(void)
 {
-	/* P1.0 - OUT (Joystick's Chip Select, "Attention")
-	 * P1.4 - IN  ("Acknowledge")
-	 */
-	P1DIR |= BIT0;
-	P1OUT |= BIT0; /* up on idle */
-
 	/* It's recommended in datasheet for this package to pulldown port 3 */
 	P3REN = 0xff;
 }
@@ -51,7 +49,11 @@ static int init(void)
 	uart_pc_set_rx_callback(process_uart_rx);
 	uart_pc_init();
 	gpio_init();
-	spi_init();
+
+	ds2_init();
+
+	wl_init();
+	wl_goto_tx();
 
 #if 0
 	/* Enter LPM0, interrupts enabled */
@@ -67,12 +69,28 @@ static void loop(void)
 {
 	char buf[20] = {0};
 	unsigned int buttons;
+	unsigned int t;
 
+	__disable_interrupt();
+
+	ds2_init_spi();
 	ds2_poll_buttons_sync(&buttons);
+	wl_init_spi();
+
 	snprintf(buf, 20, "buttons: %#x\r\n", buttons);
 	uart_pc_write_str_sync(buf);
 
-	mdelay(500);
+#ifdef DEBUG
+	t = wl_read_register(WL_REG_STATUS);
+	snprintf(buf, 20, "%x\r\n", t);
+	uart_pc_write_str_sync(buf);
+#endif
+
+	wl_send_data_sync((unsigned char*)buf, 20);
+
+	__enable_interrupt();
+
+	mdelay(100);
 }
 
 int main(void)
@@ -94,6 +112,46 @@ int main(void)
 
 	return 0;
 }
+
+#if 0
+
+void wl_do_shit(void)
+{
+	char buf[30] = {0};
+	static int c = 0;
+	int conf = wl_read_register(WL_REG_CONFIG);
+
+	++c;
+	snprintf(buf, 30, "Hello! %d %d\r\n", c, conf);
+
+	wl_send_data_sync((unsigned char*)buf, strlen(buf));
+
+	uart_pc_write_str_sync(buf);
+}
+
+int main()
+{
+	int ret;
+
+	ret = mcu_init();
+	if (ret)
+		return ret;
+
+	uart_pc_set_rx_callback(process_uart_rx);
+	uart_pc_init();
+
+	wl_init();
+	wl_goto_tx();
+
+	__enable_interrupt();
+
+	for(;;)
+	{
+		wl_do_shit();
+		mdelay(100);
+	}
+}
+#endif
 
 /* NOTE: Must be short and fast since is done in ISR */
 static void process_uart_rx(char c)

@@ -13,7 +13,7 @@ static void spi_mux_pins(void)
 	P1SEL2 |= BIT5 | BIT6 | BIT7;
 }
 
-void spi_init(void)
+void spi_init(int phase, int polarity, int is_msb)
 {
 	/* Reset SPI */
 	UCB0CTL1 = UCSWRST;
@@ -27,7 +27,23 @@ void spi_init(void)
 	 * UCMST    = 1: Master mode
 	 * UCSYNC   = 1: Synchronous mode
 	 */
-	UCB0CTL0 = UCCKPL | UCMST | UCSYNC | UCMODE_0;
+
+	UCB0CTL0 = UCMST | UCSYNC | UCMODE_0;
+
+	if(polarity)
+		UCB0CTL0 |= UCCKPL;
+	else
+		UCB0CTL0 &= ~UCCKPL;
+
+	if(phase)
+		UCB0CTL0 |= UCCKPH;
+	else
+		UCB0CTL0 &= ~UCCKPH;
+
+	if(is_msb)
+		UCB0CTL0 |= UCMSB;
+	else
+		UCB0CTL0 &= ~UCMSB;
 
 	/* Set clock source to SMCLK */
 	UCB0CTL1 = UCSSEL_2 | UCSWRST;
@@ -54,9 +70,11 @@ void spi_send_receive_byte_sync(unsigned char send_data,
 	unsigned char received;
 
 	while (!(IFG2 & UCB0TXIFG)); /* TODO: add timeout and return -1 */
+
 	UCB0TXBUF = send_data;
 
 	while (!(IFG2 & UCB0RXIFG));
+
 	received = UCB0RXBUF;
 	if (receive_data)
 		*receive_data = received;
@@ -64,10 +82,10 @@ void spi_send_receive_byte_sync(unsigned char send_data,
 	/* TODO: for debug (temporary); remove further */
 	snprintf(buf, 32, "%#x : %#x\r\n", (unsigned int)send_data,
 			(unsigned int)received);
-	uart_pc_write_str_sync(buf);
+	/*uart_pc_write_str_sync(buf);*/
 }
 
-void spi_send_receive_packet_sync(unsigned char *send_packet,
+void spi_send_receive_packet_sync(const unsigned char *send_packet,
 		unsigned char *receive_packet, size_t size)
 {
 	size_t i;
@@ -75,14 +93,8 @@ void spi_send_receive_packet_sync(unsigned char *send_packet,
 	if (!send_packet)
 		return;
 
-	/* Enable Joystick Chip Select: set "Attention" line to 0 */
-	P1OUT &= ~BIT0;
-
 	for (i = 0; i < size; ++i) {
 		spi_send_receive_byte_sync(send_packet[i],
 				receive_packet ? receive_packet + i : NULL);
 	}
-
-	/* Release CS */
-	P1OUT |= BIT0;
 }

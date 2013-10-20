@@ -8,20 +8,23 @@ XTAL = 1000000
 UART_BAUDRATE = 9600
 UART_DEV = /dev/ttyACM0
 
-OBJS =				\
-	src/uart/uart.o		\
-	src/uart/uart_pc.o	\
-	src/ds2/ds2.o		\
-	src/spi/spi.o		\
-	src/interrupts.o	\
+OBJS =					\
+	../common/src/uart/uart.o	\
+	../common/src/uart/uart_pc.o	\
+	../common/src/spi/spi.o		\
+	../common/src/wl/wl.o		\
+	../common/src/interrupts.o	\
+	src/ds2/ds2.o			\
 	src/main.o
 
-INCLUDES = -Iinclude/
+INCLUDES = -Iinclude/ -I../common/include
 DEFINES = -D'XTAL=$(XTAL)UL'
 DEFINES += -D__STDC_VERSION__=199401L
 
 CFLAGS = -mmcu=$(MCU)
-CFLAGS += -Os -s -Wall -pedantic -ansi -Werror -Wextra
+CFLAGS += -Os -s -Wall -pedantic -ansi -Wextra
+#TODO: vozvernut v zad
+#CFLAGS += -Werror
 CFLAGS += $(INCLUDES)
 CFLAGS += $(DEFINES)
 LDFLAGS = -mmcu=$(MCU) -mdisable-watchdog
