@@ -11,9 +11,14 @@ UART_DEV = /dev/ttyACM0
 OBJS =					\
 	src/main.o			\
 	src/motion/motor_driver.o	\
-	src/motion/vehicle.o
+	src/motion/vehicle.o		\
+	../common/src/interrupts.o	\
+	../common/src/uart/uart.o	\
+	../common/src/uart/uart_pc.o	\
+	../common/src/spi/spi.o		\
+	../common/src/wl/wl.o
 
-INCLUDES = -Iinclude/
+INCLUDES = -Iinclude/ -I../common/include
 DEFINES = -D'XTAL=$(XTAL)UL'
 DEFINES += -D__STDC_VERSION__=199401L
 

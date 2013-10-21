@@ -1,16 +1,16 @@
 #include <msp430.h>
+#include <stdio.h>
 #include <motion/vehicle.h>
+#include <wl/wl.h>
+#include <uart/uart_pc.h>
+#include <delay.h>
 
-#define BTN_BIT			BIT3
-#define LED1_BIT		BIT0
-#define LED2_BIT		BIT6
+#define JS_UP		BIT4
+#define JS_RIGHT	BIT5
+#define JS_DOWN		BIT6
+#define JS_LEFT		BIT7
 
-/* in loops (500000 ~= 1sec) */
-#define FWD_DELAY		1000000UL
-#define TURN_DELAY		1300000UL
-#define STOP_DELAY		2000000UL
-
-static int ignition_on;
+static unsigned char js_data;
 
 /* Forever loop for exceptional states */
 static int err_loop(void)
@@ -28,21 +28,27 @@ static int mcu_init(void)
 	DCOCTL = 0;		/* Select lowest DCOx and MODx settings */
 	BCSCTL1 = CALBC1_1MHZ;	/* Set DCO */
 	DCOCTL = CALDCO_1MHZ;
-
 	return 0;
 }
 
 static void gpio_init(void)
 {
-	/* Enable internal pull-up for button */
-	P1OUT |= BTN_BIT;
-	P1REN |= BTN_BIT;
-
-	P1DIR |= LED1_BIT | LED2_BIT;
-	P1OUT &= ~(LED1_BIT | LED2_BIT);
-
 	/* It's recommended in datasheet for this package to pulldown port 3 */
 	P3REN = 0xff;
+}
+
+static void wl_data_received(const unsigned char *data, size_t len)
+{
+
+	if (len < 2) {
+#ifdef DEBUG
+		snprintf(s, 20, "wtf1\r\n");
+		uart_pc_write_str_sync(s);
+#endif
+		return;
+	}
+
+	js_data = ~(data[0]);
 }
 
 static int init(void)
@@ -53,16 +59,18 @@ static int init(void)
 	if (ret)
 		return ret;
 
+	uart_pc_init();
 	gpio_init();
 	vehicle_init();
+	wl_set_rx_cb(wl_data_received);
+	wl_init();
+	wl_goto_rx();
+
+	__enable_interrupt();
 
 #if 0
 	/* Enter LPM0, interrupts enabled */
 	__bis_SR_register(LPM0_bits + GIE);
-#endif
-
-#if 0
-	__enable_interrupt();
 #endif
 
 	return 0;
@@ -70,30 +78,20 @@ static int init(void)
 
 static void loop(void)
 {
-	if (!ignition_on) {
-		if (!(P1IN & BTN_BIT)) { /* button pressed */
-			ignition_on = 1;
-			P1OUT |= LED1_BIT | LED2_BIT;
-		} else {
-			return;
-		}
-	} else {
-		int i;
+	int flags = 0;
 
-		for (i = 0; i < 4; ++i) {
-			/* Forward */
-			vehicle_forward();
-			__delay_cycles(FWD_DELAY);
+	if (js_data & JS_UP)
+		flags |= Y_UP;
+	if (js_data & JS_RIGHT)
+		flags |= X_RIGHT;
+	if (js_data & JS_DOWN)
+		flags |= Y_DOWN;
+	if (js_data & JS_LEFT)
+		flags |= X_LEFT;
 
-			/* Forward + Left */
-			vehicle_forward_left();
-			__delay_cycles(TURN_DELAY);
-		}
+	vehicle_move(flags);
 
-		/* Stop */
-		vehicle_stop();
-		__delay_cycles(STOP_DELAY);
-	}
+	mdelay(100);
 }
 
 int main(void)
