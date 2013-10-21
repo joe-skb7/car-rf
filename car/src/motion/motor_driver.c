@@ -12,7 +12,7 @@ void md_init(void)
 
 void md_command(int cmd_flags)
 {
-	register unsigned char out_new = MD_OUT;
+	unsigned char out_new = MD_OUT & IN_BITS;
 
 	if ((cmd_flags & M1_STOP) == M1_STOP) {
 		out_new &= ~(IN1_BIT | IN2_BIT);
@@ -34,5 +34,13 @@ void md_command(int cmd_flags)
 		out_new |= IN4_BIT;
 	}
 
+	/* Ruquirements:
+	 * - disable interrupts, so that P2OUT 100% is not changing
+	 * - there must be no temporary values in P2OUT (motors will react)
+	 * - don't touch bits in P2OUT that are not related to motor driver
+	 */
+	__disable_interrupt();
+	out_new |= MD_OUT & ~IN_BITS;
 	MD_OUT = out_new;
+	__enable_interrupt();
 }
