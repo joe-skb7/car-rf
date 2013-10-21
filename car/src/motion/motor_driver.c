@@ -2,10 +2,12 @@
 #include <motion/motor_driver_cfg.h>
 #include <motion/motor_driver.h>
 
+#define IN_BITS (IN1_BIT | IN2_BIT | IN3_BIT | IN4_BIT)
+
 void md_init(void)
 {
-	MD_DIR |= IN1_BIT | IN2_BIT | IN3_BIT | IN4_BIT;
-	MD_OUT &= ~(IN1_BIT | IN2_BIT | IN3_BIT | IN4_BIT);
+	MD_DIR |= IN_BITS;
+	MD_OUT &= ~IN_BITS;
 }
 
 void md_command(int cmd_flags)
