@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 
-static int packets_received = 0;
+static volatile int packets_received;
 static wl_rx_cb rx_cb = 0;
 static wl_tx_cb tx_cb = 0;
 
