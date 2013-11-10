@@ -1,0 +1,2 @@
+Ceramic capacitors 100nF were added to Vs and Vss lines, as recommended by L298 datasheet.
+They were soldered to motor driver module board near GND pin.
