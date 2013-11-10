@@ -10,7 +10,7 @@
 #define JS_DOWN		BIT6
 #define JS_LEFT		BIT7
 
-static unsigned char js_data;
+static volatile unsigned char js_data;
 
 /* Forever loop for exceptional states */
 static int err_loop(void)
