@@ -1,0 +1,4 @@
+[1] http://reprap.org/wiki/GM3_Noise_Suppressor_1_0
+[2] http://reprap.org/wiki/Nophead%27s_Extruder_Tweaks#Interference_suppressor
+[3] http://www.beam-wiki.org/wiki/Reducing_Motor_Noise
+[4] http://www.kerrywong.com/2012/01/26/a-short-guide-on-motor-electrical-noise-reduction/
