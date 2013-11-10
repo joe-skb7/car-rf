@@ -68,6 +68,7 @@ static int init(void)
 static void loop(void)
 {
 	char buf[20] = {0};
+	static unsigned int old_buttons = 0;
 	unsigned int buttons;
 	unsigned int t;
 
@@ -86,8 +87,14 @@ static void loop(void)
 	uart_pc_write_str_sync(buf);
 #endif
 
+	if(old_buttons != buttons)
+	{
+		wl_send_data_sync((unsigned char*)&buttons, sizeof(buttons));
+		old_buttons = buttons;
+	}
+/*
 	wl_send_data_sync((unsigned char*)buf, 20);
-
+*/
 	__enable_interrupt();
 
 	mdelay(100);
