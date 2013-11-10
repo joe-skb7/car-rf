@@ -219,7 +219,11 @@ void on_wl_interrupt(void)
 {
 	if(P1IFG & BIT3)
 	{
-		unsigned char status = wl_read_register(WL_REG_STATUS);
+		unsigned char status;
+
+		P1IFG &= ~BIT3;
+
+		status = wl_read_register(WL_REG_STATUS);
 
 		if(status & WL_TX_DS) /* transmit successfull */
 		{
@@ -244,7 +248,5 @@ void on_wl_interrupt(void)
 			if(rx_cb)
 				rx_cb(msg, msg_len);
 		}
-
-		P1IFG &= ~BIT3;
 	}
 }
