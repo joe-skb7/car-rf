@@ -1,0 +1,53 @@
+1. Issue was found: MSP430 or WL module is being stuck when trying to receive packets
+   (via WL module) while motors are spinning.
+
+2. Root cause: when DC motor is spinning, we have EMI noise due to motor brushes
+   being conneced/disconnecting from collector and DC motor has great inductance.
+   v = -L*di/dt. And motor frequency are high (~100rpm).
+   So noise is going through motor driver to MSP430 GPIO lines, that are controlling
+   motor driver (P2.0 - P2.3). This noise is affecting either MSP430 or WL chip, and further
+   packets can't be processed/emitted.
+
+3. Temporary solution (that is using now): add RC integrator to each GPIO line that is going to
+   motor driver (P2.0 - P2.3). RC integrator is acting like filter to noise and this way we have
+   working car.
+
+          R                                     R_driver_inner
+GPIO  --------              motor driver input   --------
+   ---|      |------*----------------------------|      |-------
+      --------      |                            --------
+                   --- C                                   <------ noise direction
+                   ---
+                    |
+                    |
+                  -----
+
+   Resistor near GPIO is only needed to limit capacitor charging current (GPIO module can
+   provide max. 45 mA for all lines).
+
+
+   v = 3.6 V;            // MSP430 GPIO voltage
+   C = 5 uF = 5e-6 F;    // given from available capacitors
+   i = 10 mA = 10e-3 A;  // max. sum. current for all GPIO's is about 45 mA
+   v_ih = 2.3 V;         // motor driver high logic level voltage
+   
+   R = v / i = 3.6/10e-3 = 350 Ohm;    // resistor for RC integrator
+   tau = R * C = 350*5e-6 = 0.0018 s;  // time constant
+
+   v_c = v * (1-exp(-t/tau));          // capacitor charging voltage curve
+   2.3 = 3.6*(1-exp(-t/0.0018));
+   ...
+   t = -0.0018*ln(0.361) = 0.002 s = 2 ms;  // time from GPIO is pulled up to motor driver reaction
+
+   
+   This time acceptable for GPIO controlled motor driver. But not acceptable for PWM control. 
+
+4. Probably final solution: suppress DC motor noise in place: develop schematic that can
+   suppress noise and put it near to DC motor so that noise will not go to motor driver
+   through OUT pin.
+
+TODO:
+ - solder out all components added to motor driver (except 2 capacitor for Vs and Vss),
+   like RC integrators
+ - develop 4 x suppressor
+ - solder them near DC motors
