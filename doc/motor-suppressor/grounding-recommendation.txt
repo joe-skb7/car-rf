@@ -1,0 +1,12 @@
+From [1]:
+...leaving the can floating was better than grounding it because that just put noise
+on the ground rail."
+
+From [2]:
+...please pay special attention to the grounding location.
+It is important to have the ground tied to a common place which is as close to the
+power supply source (i.e. the negative terminal of the battery) as possible.
+
+
+[1] http://hydraraptor.blogspot.com/2007/09/dc-to-daylight.html
+[2] http://www.kerrywong.com/2012/01/26/a-short-guide-on-motor-electrical-noise-reduction/
