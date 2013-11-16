@@ -5,8 +5,8 @@
    being conneced/disconnecting from collector and DC motor has great inductance.
    v = -L*di/dt. And motor frequency are high (~100rpm).
    So noise is going through motor driver to MSP430 GPIO lines, that are controlling
-   motor driver (P2.0 - P2.3). This noise is affecting either MSP430 or WL chip, and further
-   packets can't be processed/emitted.
+   motor driver (P2.0 - P2.3). This noise is affecting MSP430 so that SPI packets are broken,
+   and further packets can't be processed/emitted.
 
 3. Temporary solution (that is using now): add RC integrator to each GPIO line that is going to
    motor driver (P2.0 - P2.3). RC integrator is acting like filter to noise and this way we have
