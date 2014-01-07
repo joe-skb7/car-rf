@@ -1,6 +1,6 @@
 PROJ = car
 OUT = $(PROJ).elf
-CROSS_COMPILE = msp430-
+CROSS_COMPILE ?= msp430-
 CC = $(CROSS_COMPILE)gcc
 MCU = msp430g2553
 PROGRAMMER = rf2500
@@ -30,10 +30,11 @@ LDFLAGS = -mmcu=$(MCU) -mdisable-watchdog
 # for debug: add -g, remove -s
 
 MSP430_INC = -I/usr/msp430/include -I/usr/lib/gcc/msp430/4.6.3/include
-MSP430_DEF = -D__MSP430G2553__ -D__STDC__
+MSP430_DEF = -D__MSP430G2553__
 MSP430_CFLAGS = $(MSP430_INC) $(MSP430_DEF)
 SPARSE_FLAGS = -Wsparse-all $(MSP430_CFLAGS) $(CFLAGS)
 CPPCHECK_FLAGS = --enable=all $(MSP430_CFLAGS) $(INCLUDES) $(DEFINES)
+CPPCHECK_FLAGS += -D__STDC__
 SPLINT_FLAGS = -weak $(MSP430_CFLAGS) $(INCLUDES) $(DEFINES)
 
 FLASH_SIZE = "16 KB"
@@ -57,15 +58,32 @@ flash: $(OUT)
 clean:
 	-rm -rf $(OUT) $(OBJS)
 
-check:
+_check_sparse:
 	@echo "---> Checking with sparse..."
 	@find . -type f -name '*.[ch]' -exec sparse $(SPARSE_FLAGS) {} \;
 	@echo
+
+_check_cppcheck:
 	@echo "---> Checking with cppcheck..."
 	@cppcheck $(CPPCHECK_FLAGS) .
 	@echo
+
+__check_clang: $(OBJS)
+
+_check_clang:
+	@echo "---> Checking with clang..."
+	@$(MAKE) clean >/dev/null 2>/dev/null
+	@$(MAKE) CFLAGS="$(MSP430_CFLAGS) $(CFLAGS)" \
+		CROSS_COMPILE="scan-build $(CROSS_COMPILE)" __check_clang
+	@$(MAKE) clean >/dev/null 2>/dev/null
+	@echo
+
+_check_splint:
 	@echo "---> Checking with splint..."
 	@find . -type f -name '*.[ch]' -exec splint $(SPLINT_FLAGS) {} \;
+	@echo
+
+check: _check_sparse _check_cppcheck _check_clang _check_splint
 
 debug:
 	sudo mspdebug $(PROGRAMMER)
