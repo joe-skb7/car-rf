@@ -39,9 +39,10 @@ static void gpio_init(void)
 
 static void wl_data_received(const unsigned char *data, size_t len)
 {
-
 	if (len < 2) {
 #ifdef DEBUG
+		char s[20];
+
 		snprintf(s, 20, "wtf1\r\n");
 		uart_pc_write_str_sync(s);
 #endif
