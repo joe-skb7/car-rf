@@ -5,6 +5,8 @@
 #include <uart/uart_pc.h>
 #include <delay.h>
 
+/* #define DEBUG */
+
 #define JS_UP		BIT4
 #define JS_RIGHT	BIT5
 #define JS_DOWN		BIT6
@@ -92,7 +94,8 @@ static void loop(void)
 
 	vehicle_move(flags);
 
-	mdelay(100);
+	/* XXX: decide finally what to do with it */
+	/* mdelay(100); */
 }
 
 int main(void)
