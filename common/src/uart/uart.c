@@ -49,7 +49,7 @@ int uart_send_char_sync(char c)
 
 int uart_send_str_sync(char *s)
 {
-	int ret;
+	int ret = 0;
 
 	while (*s) {
 		ret = uart_send_char_sync(*s);
