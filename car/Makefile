@@ -1,13 +1,4 @@
 PROJ = car
-OUT = $(PROJ).elf
-CROSS_COMPILE ?= msp430-
-CC = $(CROSS_COMPILE)gcc
-MCU = msp430g2553
-PROGRAMMER = rf2500
-XTAL = 1000000
-UART_BAUDRATE = 9600
-UART_DEV = /dev/ttyACM0
-
 OBJS =					\
 	src/main.o			\
 	src/motion/motor_driver.o	\
@@ -17,6 +8,15 @@ OBJS =					\
 	../common/src/uart/uart_pc.o	\
 	../common/src/spi/spi.o		\
 	../common/src/wl/wl.o
+
+OUT = $(PROJ).elf
+CROSS_COMPILE ?= msp430-
+CC = $(CROSS_COMPILE)gcc
+MCU = msp430g2553
+PROGRAMMER = rf2500
+XTAL = 1000000
+UART_BAUDRATE = 9600
+UART_DEV = /dev/ttyACM0
 
 INCLUDES = -Iinclude/ -I../common/include
 DEFINES = -D'XTAL=$(XTAL)UL'
